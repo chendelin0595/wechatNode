@@ -1,0 +1,4 @@
+{
+	"token": "wechat",
+	"assessToken": "https://api.weixin.qq.com/cgi-bin/"
+}
