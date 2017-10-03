@@ -3,6 +3,7 @@
  */
 
 var crypto = require ('crypto');
+var AssessToken = require('../modules/AssessToken');
 
 module.exports = function (opts) {
 	return function (req, res) {
@@ -16,6 +17,9 @@ module.exports = function (opts) {
 		console.log('signature', signature);
 		console.log('--------------------------------------');
 
+		new AssessToken({assess_token: signature}).save().then(err => {
+			console.log('assesstoken:', err);
+		})
 		// 2. 将token、timestamp、nonce 三个参数进行字典序排序
 		var arr = [opts.token, timestamp, nonce].sort().join('');
 
