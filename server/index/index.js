@@ -73,7 +73,7 @@ Wechat.prototype.updateAccessToken = function (data) { // 更新token
 module.exports = function (opts) {
 	// var wechat = new Wechat(opts);
 	return function * (next) {
-
+		var that = this;
 		// res.send('mismatch');
 		// 1. 获取微信服务器Get请求的参数 signature、timestamp、nonce、echostr
 		var signature = this.query.signature, // 微信加密签名
@@ -103,9 +103,23 @@ module.exports = function (opts) {
 				})
 				var content = yield util.parseXmlAsync(data);
 				var message = util.formatObj(content.xml);
+
+				if (message.Event === 'subscribe') {
+					console.log(1);
+					that.status = 200;
+					that.type = 'application/xml';
+					var xml = '<xml>' +
+								 '<ToUserName><![CDATA['+ message.FromUserName +']]></ToUserName>' +
+								 '<FromUserName><![CDATA['+ message.ToUserName +']]></FromUserName>' +
+								 '<CreateTime>'+ new Date().getTime() +'</CreateTime>' +
+								 '<MsgType><![CDATA[text]]></MsgType>' +
+								 '<Content><![CDATA[德贤是傻逼]]></Content>' +
+								 '</xml>';
+				 	console.log('xml', xml);
+					that.body = xml
+				}
 			}
 			console.log('通过了。。。');
-			this.body = echostr;
 		} else {
 			this.body = 'mismatch';
 		}
