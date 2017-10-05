@@ -1,10 +1,12 @@
-var express = require('express');
+var koa = require('koa');
 var crypto = require ('crypto');
 var mongoose = require('mongoose');
 var main = require('./index/index');
-var app = express();
+var app = new koa();
 var config = {
 	"token": "wechat",
+	"appID": "wx53ee4b478ad479f4",
+	"appsecret": "06670dd4240968096758cb3ae0ff14d6",
 	"assessToken": "https://api.weixin.qq.com/cgi-bin/"
 };
 
